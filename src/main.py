@@ -49,8 +49,8 @@ def preprocessamento(response):
     for vendedor, group in groupby(dics, key=itemgetter("vendedor")):
         result[vendedor] = list(group)
     for vendedor, lista in result.items():
-        lista.sort(key=lambda x:x['data'][:7])
-        for k,v in groupby(lista,key=lambda x:x['data'][:7]):
+        lista.sort(key=lambda x:x['data'][:10])
+        for k,v in groupby(lista,key=lambda x:x['data'][:10]):
             lista = list(v)
             cria_resposta(lista, resultf)
     comissoes = {"comissoes": resultf}
@@ -74,7 +74,7 @@ def cria_resposta(lista, result):
             aux = metas_db[index]['qtd']
             for x in range(aux,qtd_vendas):
                 comissao = comissao + venda[x]*0.03
-    venda_mensal = {'vendedor' : vendedor, 'mes' : date, 'valor': round(comissao, 2) }
+    venda_mensal = {'vendedor' : vendedor, 'mes' : date, 'valor': str(round(comissao, 2)).replace('.',',') }
     result.append(venda_mensal)
 
     
