@@ -62,14 +62,18 @@ def cria_resposta(lista, result):
     date = formata_data(data)
     comissao = 0.00
     valor = 0.00
+    venda = []
     qtd_vendas = 0
     for index in range(len(lista)):
         qtd_vendas = qtd_vendas+1
         valor = valor + lista[index]['valor']
+        venda.append(lista[index]['valor'])
         comissao = comissao + calcula_comissao(lista[index]['valor'])
     for index in range(len(metas_db)):
         if (metas_db[index]['mes'] == date and metas_db[index]['qtd'] <= qtd_vendas):
-            comissao = comissao + valor*0.03
+            aux = metas_db[index]['qtd']
+            for x in range(aux,qtd_vendas):
+                comissao = comissao + venda[x]*0.03
     venda_mensal = {'vendedor' : vendedor, 'mes' : date, 'valor': round(comissao, 2) }
     result.append(venda_mensal)
 
